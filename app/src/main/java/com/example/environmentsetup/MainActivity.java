@@ -2,41 +2,32 @@ package com.example.environmentsetup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    ArrayList<Contact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Lookup the recyclerview in activity layout
+        RecyclerView rvContacts = (RecyclerView) findViewById(R.id.recyclerView);
+
+        // Initialize contacts
+        contacts = Contact.createContactsList(20);
+        // Create adapter passing in the sample user data
+        ContactAdapter adapter = new ContactAdapter(contacts);
+        // Attach the adapter to the recyclerview to populate items
+        rvContacts.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvContacts.setLayoutManager(new LinearLayoutManager(this));
     }
-
-    public void LogIn(View view) {
-
-        Log.i("INFO", "Logging into your account...");
-        EditText user = findViewById(R.id.userNameInput);
-        EditText password = findViewById(R.id.passwordInput);
-
-        String userNameInput = user.getText().toString();
-        String passwordInput = password.getText().toString();
-
-        Log.i("INFO", "The username you input is " + user.getText().toString());
-        Log.i("INFO", "The password you input is " + password.getText().toString());
-
-        Intent intent = new Intent(getApplicationContext(), UserConfirmationActivity.class);
-        intent.putExtra("usernameCredential", userNameInput);
-        intent.putExtra("passwordCredential", passwordInput);
-        startActivity(intent);
-    }
-
-
 }
